@@ -22,5 +22,14 @@
         right: -0.15rem;
         transform: rotate(340deg);
         font-size: 4rem;
+        transition: ease-in-out 0.2s;
+    }
+
+    &:hover {
+        .dashboard-card-icon {
+            top: 1.5rem;
+            right: 0.5rem;
+            transform: rotate(360deg);
+        }
     }
 }
