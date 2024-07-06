@@ -1,0 +1,26 @@
+.dashboard-card {
+    height: 8rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    position: relative;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    color: #fff;
+
+    .dashboard-card-quantity {
+        font-size: 2rem;
+        font-weight: 700;
+    }
+
+    .dashboard-card-icon {
+        position: absolute;
+        top: 2.5rem;
+        right: -0.15rem;
+        transform: rotate(340deg);
+        font-size: 4rem;
+    }
+}
