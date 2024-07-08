@@ -76,19 +76,6 @@ export function Categories()
 
     return (
         <Container fluid>
-            <NewCategoryModal
-                show={showNewCategoryModal}
-                onHide={handleCloseNewCategoryModal}
-                fetchCategories={fetchCategories}
-            />
-
-            <EditCategoryModal
-                fetchCategories={fetchCategories}
-                category={selectedCategory}
-                show={showEditCategoryModal} 
-                onHide={handleCloseEditCategoryModal}
-            />
-
             <Button className="mb-4" onClick={handleShowNewCategoryModal}>Nova categoria</Button>
 
             {isLoading ? (
@@ -123,6 +110,19 @@ export function Categories()
                     <div className="text-center text-secondary fw-bold">Sem categorias cadastradas.</div>
                 )
             )}
+
+            <NewCategoryModal
+                show={showNewCategoryModal}
+                onHide={handleCloseNewCategoryModal}
+                fetchCategories={fetchCategories}
+            />
+
+            <EditCategoryModal
+                fetchCategories={fetchCategories}
+                category={selectedCategory}
+                show={showEditCategoryModal} 
+                onHide={handleCloseEditCategoryModal}
+            />
         </Container>
     );
 }

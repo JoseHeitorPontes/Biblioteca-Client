@@ -13,6 +13,7 @@ import { BiSolidEdit } from "react-icons/bi";
 import { api } from "@/services/api";
 
 import { Pagination } from "@/components/Pagination";
+import { NewBookModal } from "@/components/Modals/Books/NewBookModal";
 import { ViewBookModal } from "@/components/Modals/Books/ViewBookModal";
 
 type BooksPagination = GenericPagination<Book>;
@@ -25,7 +26,12 @@ export function Books()
     const [page, setPage] = useState(1);
     const [booksPagination, setBooksPagination] = useState<BooksPagination>({} as BooksPagination);
 
+    const [showNewBookModal, setShowNewBookModal] = useState(false);
+    const handleShowNewBookModal = () => setShowNewBookModal(true);
+    const handleCloseNewBookModal = () => setShowNewBookModal(false);
+
     const [selectedBook, setSelectedBook] = useState<Book>({} as Book);
+
     const [showViewBookModal, setShowViewBookModal] = useState(false);
     function handleShowViewBookModal(book: Book) {
         setSelectedBook(book);
@@ -69,7 +75,13 @@ export function Books()
 
     return (
         <Container fluid>
-            <ViewBookModal book={selectedBook} show={showViewBookModal} onHide={handleCloseViewBookModal} />
+            <Button
+                variant="primary"
+                className="mb-4"
+                onClick={handleShowNewBookModal}
+            >
+                Novo livro
+            </Button>
 
             {isLoading ? (
                 <div className="d-flex justify-content-center">
@@ -150,9 +162,20 @@ export function Books()
                         />
                     </>
                 ) : (
-                    <div className="text-center text-secondary fw-bold">Sem categorias cadastradas.</div>
+                    <div className="text-center text-secondary fw-bold">Sem livros cadastradas.</div>
                 )
             )}
+
+            <NewBookModal
+                show={showNewBookModal}
+                onHide={handleCloseNewBookModal}
+            />
+            
+            <ViewBookModal
+                book={selectedBook}
+                show={showViewBookModal}
+                onHide={handleCloseViewBookModal} 
+            />
         </Container>
     );
 }

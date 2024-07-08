@@ -17,7 +17,7 @@ export function DashboardCard({
 }: Props) {
     return (
         <div className="dashboard-card" style={{ backgroundColor }}>
-            <h5>{title}</h5>
+            <h5 className="text-center px-2">{title}</h5>
 
             <span className="dashboard-card-quantity">{quantity}</span>
 
