@@ -18,6 +18,8 @@ export function useSwal()
         showCloseButton: true,
         showCancelButton: true,
         showConfirmButton: true,
+        cancelButtonText: "Cancelar",
+        cancelButtonColor: "#FF0000",
     });
     
     return {

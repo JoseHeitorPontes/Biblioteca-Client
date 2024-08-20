@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 import Container from "react-bootstrap/Container";
-import Table from "react-bootstrap/Table";
+import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Spinner from "react-bootstrap/Spinner";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
@@ -11,6 +11,7 @@ import { FaEye, FaTrash } from "react-icons/fa6";
 import { BiSolidEdit } from "react-icons/bi";
 
 import { api } from "@/services/api";
+import { useSwal } from "@/hooks/useSwal";
 
 import { Pagination } from "@/components/Pagination";
 import { NewBookModal } from "@/components/Modals/Books/NewBookModal";
@@ -20,6 +21,8 @@ type BooksPagination = GenericPagination<Book>;
 
 export function Books() 
 {
+    const { Swal, Toast } = useSwal();
+
     const [isLoading, setIsLoading] = useState(true);
 
     const forcePage = useRef(1);
@@ -30,11 +33,11 @@ export function Books()
     const handleShowNewBookModal = () => setShowNewBookModal(true);
     const handleCloseNewBookModal = () => setShowNewBookModal(false);
 
-    const [selectedBook, setSelectedBook] = useState<Book>({} as Book);
+    const [selectedBookId, setSelectedBookId] = useState(0);
 
     const [showViewBookModal, setShowViewBookModal] = useState(false);
-    function handleShowViewBookModal(book: Book) {
-        setSelectedBook(book);
+    function handleShowViewBookModal(bookId: number) {
+        setSelectedBookId(bookId);
         setShowViewBookModal(true);
     }
     const handleCloseViewBookModal = () => setShowViewBookModal(false);
@@ -57,6 +60,28 @@ export function Books()
         }
     }
 
+    async function handleDeleteBook(bookId: number) {
+        try {
+            const { isConfirmed } = await Swal.fire({
+                icon: "info",
+                text: "Tem certeza que deseja excluir este livro?",
+            });
+
+            if (isConfirmed) {
+                await api.delete(`/books/${bookId}`);
+
+                await fetchBooks();
+
+                Toast.fire({
+                    icon: "success",
+                    text: "Livro excluido com sucesso.",
+                });
+            }
+        } catch(error) {
+            console.log(error);
+        }
+    }
+
     function handlePageChange(selected: number) {
         if (page !== forcePage.current) {
             fetchBooks(selected);
@@ -75,96 +100,104 @@ export function Books()
 
     return (
         <Container fluid>
-            <Button
-                variant="primary"
-                className="mb-4"
-                onClick={handleShowNewBookModal}
-            >
-                Novo livro
-            </Button>
+            <Card>
+                <Card.Header className="bg-green text-light">
+                    <Card.Title className="m-0">Livros</Card.Title>
+                </Card.Header>
 
-            {isLoading ? (
-                <div className="d-flex justify-content-center">
-                    <Spinner animation="border" variant="primary" />
-                </div>
-            ) : (
-                Boolean(booksPagination.data.length) ? (
-                    <>
-                        <Table bordered striped className="text-center">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Nome</th>
-                                    <th>Categoria</th>
-                                    <th>Autor</th>
-                                    <th>Editora</th>
-                                    <th>Ações</th>
-                                </tr>
-                            </thead>
+                <Card.Body>
+                    <Button
+                        variant="primary"
+                        className="mb-4"
+                        onClick={handleShowNewBookModal}
+                    >
+                        Novo livro
+                    </Button>
 
-                            <tbody>
-                                {booksPagination.data?.map((book, index) => (
-                                    <tr key={book.id}>
-                                        <td>{index + 1}</td>
-                                        <td>{book.name}</td>
-                                        <td>{book.category.name}</td>
-                                        <td>{book.author}</td>
-                                        <td>{book.publishingCompany}</td>
-                                        <td>
-                                            <div className="d-flex justify-content-center gap-2">
-                                                <OverlayTrigger
-                                                    overlay={
-                                                        <Tooltip>
-                                                            Ver
-                                                        </Tooltip>
-                                                    }
-                                                >
-                                                    <Button onClick={() => handleShowViewBookModal(book)}>
-                                                        <FaEye />
-                                                    </Button>
-                                                </OverlayTrigger>
+                    {isLoading ? (
+                        <div className="d-flex justify-content-center">
+                            <Spinner animation="border" variant="primary" />
+                        </div>
+                    ) : (
+                        Boolean(booksPagination?.data?.length) ? (
+                            <>
+                                <table className="default-table table-bordered mb-4 text-center">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Nome</th>
+                                            <th>Categoria</th>
+                                            <th>Autor</th>
+                                            <th>Editora</th>
+                                            <th>Ações</th>
+                                        </tr>
+                                    </thead>
 
-                                                <OverlayTrigger
-                                                    overlay={
-                                                        <Tooltip>
-                                                            Editar
-                                                        </Tooltip>
-                                                    }
-                                                >
-                                                    <Button variant="success">
-                                                        <BiSolidEdit />
-                                                    </Button>
-                                                </OverlayTrigger>
+                                    <tbody>
+                                        {booksPagination.data?.map((book, index) => (
+                                            <tr key={book.id}>
+                                                <td>{index + 1}</td>
+                                                <td>{book.name}</td>
+                                                <td>{book.category.name}</td>
+                                                <td>{book.author}</td>
+                                                <td>{book.publishingCompany}</td>
+                                                <td>
+                                                    <div className="d-flex justify-content-center gap-2">
+                                                        <OverlayTrigger
+                                                            overlay={
+                                                                <Tooltip>
+                                                                    Ver
+                                                                </Tooltip>
+                                                            }
+                                                        >
+                                                            <Button onClick={() => handleShowViewBookModal(book.id)}>
+                                                                <FaEye />
+                                                            </Button>
+                                                        </OverlayTrigger>
 
-                                                <OverlayTrigger
-                                                    overlay={
-                                                        <Tooltip>
-                                                            Deletar
-                                                        </Tooltip>
-                                                    }
-                                                >
-                                                    <Button variant="danger">
-                                                        <FaTrash />
-                                                    </Button>
-                                                </OverlayTrigger>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </Table>
+                                                        <OverlayTrigger
+                                                            overlay={
+                                                                <Tooltip>
+                                                                    Editar
+                                                                </Tooltip>
+                                                            }
+                                                        >
+                                                            <Button variant="success">
+                                                                <BiSolidEdit />
+                                                            </Button>
+                                                        </OverlayTrigger>
 
-                        <Pagination
-                            itemsPerPage={10}
-                            totalItems={booksPagination.meta.total}
-                            forcePage={forcePage.current - 1}
-                            changeSelectedPage={handlePageChange}
-                        />
-                    </>
-                ) : (
-                    <div className="text-center text-secondary fw-bold">Sem livros cadastradas.</div>
-                )
-            )}
+                                                        <OverlayTrigger
+                                                            overlay={
+                                                                <Tooltip>
+                                                                    Deletar
+                                                                </Tooltip>
+                                                            }
+                                                        >
+                                                            <Button variant="danger" onClick={() => handleDeleteBook(book.id)}>
+                                                                <FaTrash />
+                                                            </Button>
+                                                        </OverlayTrigger>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+
+                                <Pagination
+                                    itemsPerPage={10}
+                                    totalItems={booksPagination.meta.total}
+                                    forcePage={forcePage.current - 1}
+                                    changeSelectedPage={handlePageChange}
+                                />
+                            </>
+                        ) : (
+                            <div className="text-center text-secondary fw-bold">Sem livros cadastradas.</div>
+                        )
+                    )}
+                </Card.Body>
+            </Card>
 
             <NewBookModal
                 show={showNewBookModal}
@@ -172,7 +205,7 @@ export function Books()
             />
             
             <ViewBookModal
-                book={selectedBook}
+                selectedBookId={selectedBookId}
                 show={showViewBookModal}
                 onHide={handleCloseViewBookModal} 
             />

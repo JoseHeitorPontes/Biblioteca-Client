@@ -6,8 +6,6 @@ import { LuCalendarClock } from "react-icons/lu";
 
 import { DashboardCard } from "@/components/DashboardCard";
 
-import "./styles.scss";
-
 export function Dashboard()
 {
     return (
@@ -48,7 +46,7 @@ export function Dashboard()
                 </Card.Header>
 
                 <Card.Body className="p-0">
-                    <table className="lendings-table text-center">
+                    <table className="default-table text-center">
                         <thead>
                             <tr>
                                 <th>#</th>

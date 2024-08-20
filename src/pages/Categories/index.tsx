@@ -37,8 +37,6 @@ export function Categories()
             const { isConfirmed } = await Swal.fire({
                 icon: "info",
                 text: "Tem certeza que deseja excluir esta categoria?",
-                cancelButtonText: "Cancelar",
-                cancelButtonColor: "#FF0000",
             });
 
             if (isConfirmed) {
