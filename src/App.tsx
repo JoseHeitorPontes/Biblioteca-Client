@@ -1,11 +1,14 @@
-import { AppRoutes } from './routes/app.routes';
+import { AppRoutes } from "./routes/app.routes";
+import { AuthProvider } from "./contexts/AuthContext";
 
-import './global.scss';
+import "./global.scss";
 
 function App() {
   return (
-    <AppRoutes />
-  )
+    <AuthProvider>
+      <AppRoutes />
+    </AuthProvider>
+  );
 }
 
 export default App;

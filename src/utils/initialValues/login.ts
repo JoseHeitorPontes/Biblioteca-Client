@@ -1,5 +1,5 @@
 export const initialValuesLogin = {
-    email: "",
-    password: "",
-    device_name: "Mozzila",
+  email: "",
+  password: "",
+  device_name: "Mozzila",
 };

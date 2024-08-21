@@ -1,88 +1,54 @@
-import { useState, useEffect } from "react";
-
 import Modal, { ModalProps } from "react-bootstrap/Modal";
-import Spinner from "react-bootstrap/Spinner";
 import Image from "react-bootstrap/Image";
 import Button from "react-bootstrap/Button";
 
-import { api } from "@/services/api";
 import { imageUrl } from "@/services/imageUrl";
 
 type Props = ModalProps & {
-    selectedBookId: number;
+  selectedBook: Book;
 };
 
-export function ViewBookModal({
-    selectedBookId,
-    ...rest
-}: Props) {
-    const [isLoading, setIsLoading] = useState(true);
-    const [book, setBook] = useState({} as Book);
+export function ViewBookModal({ selectedBook, ...rest }: Props) {
+  return (
+    <Modal {...rest}>
+      <Modal.Header closeButton>
+        <Modal.Title>Ver Livro</Modal.Title>
+      </Modal.Header>
 
-    async function getBook() {
-        try {
-            setIsLoading(true);
+      <Modal.Body>
+        <div className="mb-1">
+          <span className="fw-bold">Nome: </span>
+          {selectedBook?.name}
+        </div>
 
-            const { data } = await api.get(`/books/${selectedBookId}`);
+        <div className="mb-1">
+          <span className="fw-bold">Autor: </span>
+          {selectedBook?.author}
+        </div>
 
-            setBook(data);
-        } catch(error) {
-            console.log(error);
-        } finally {
-            setIsLoading(false);
-        }
-    }
+        <div className="mb-1">
+          <span className="fw-bold">Editora: </span>
+          {selectedBook?.publishingCompany}
+        </div>
 
-    useEffect(() => {
-        getBook();
-    }, [selectedBookId]);
+        <div className="mb-1">
+          <span className="fw-bold">Categoria: </span>
+          {selectedBook?.category?.name}
+        </div>
 
-    return (
-        <Modal {...rest}>
-            <Modal.Header closeButton>
-                <Modal.Title>Ver Livro</Modal.Title>
-            </Modal.Header>
+        <Image
+          className="h-150px w-200px rounded mb-1"
+          src={`${imageUrl}/books/${selectedBook?.image}`}
+        />
 
-            <Modal.Body>
-                {isLoading ? (
-                    <div className="d-flex justify-content-center align-items-center">
-                        <Spinner variant="primary" animation="border" />
-                    </div>
-                ) : (
-                    <>
-                        <div className="mb-1">
-                            <span className="fw-bold">Nome: </span>
-                            {book?.name}
-                        </div>
+        <p className="text-align-justify mb-2">{selectedBook?.synpose}</p>
 
-                        <div className="mb-1">
-                            <span className="fw-bold">Autor: </span>
-                            {book?.author}
-                        </div>
-
-                        <div className="mb-1">
-                            <span className="fw-bold">Editora: </span>
-                            {book?.publishingCompany}
-                        </div>
-
-                        <div className="mb-1">
-                            <span className="fw-bold">Categoria: </span>
-                            {book?.category?.name}
-                        </div>
-
-                        <Image 
-                            className="h-150px w-200px rounded mb-1"
-                            src={`${imageUrl}/books/${book?.image}`}
-                        />
-
-                        <p className="text-align-justify mb-2">{book?.synpose}</p>
-
-                        <div className="d-flex justify-content-center">
-                            <Button variant="dark" onClick={() => rest.onHide?.()}>Fechar</Button>
-                        </div>
-                    </>
-                )}
-            </Modal.Body>
-        </Modal>
-    );
+        <div className="d-flex justify-content-center">
+          <Button variant="dark" onClick={() => rest.onHide?.()}>
+            Fechar
+          </Button>
+        </div>
+      </Modal.Body>
+    </Modal>
+  );
 }

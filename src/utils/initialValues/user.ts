@@ -1,6 +1,6 @@
 export const userInitialValues = {
-    name: "",
-    email: "",
-    password: "",
-    confirmation_password: "",
+  name: "",
+  email: "",
+  password: "",
+  confirmation_password: "",
 };

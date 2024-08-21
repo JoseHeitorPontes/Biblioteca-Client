@@ -1,38 +1,47 @@
-import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 
-import { AuthProvider } from '@/contexts/AuthContext';
+import { useAuth } from "@/hooks/useAuth";
 
-import { Sidebar } from '@/components/Sidebar';
+import { Sidebar } from "@/components/Sidebar";
 
-import { Login } from '@/pages/Login';
-import { NewUser } from '@/pages/NewUser';
-import { ForgotPassword } from '@/pages/ForgotPassword';
-import { Dashboard } from '@/pages/Dashboard';
-import { Categories } from '@/pages/Categories';
-import { Books } from '@/pages/Books';
+import { Login } from "@/pages/Login";
+import { NewUser } from "@/pages/NewUser";
+import { ForgotPassword } from "@/pages/ForgotPassword";
+import { Dashboard } from "@/pages/Dashboard";
+import { Categories } from "@/pages/Categories";
+import { Books } from "@/pages/Books";
 
 export function AppRoutes() {
-    return (
-        <>
-            <BrowserRouter>
-                <Routes>
-                <Route path="/" element={<Login />} />
-                <Route path="/novo-usuario" element={<NewUser />} />
-                <Route path="/recuperar-senha" element={<ForgotPassword />} />
+  const { currentUser } = useAuth();
 
-                <Route element={
-                    <AuthProvider>
-                        <Sidebar />
+  return (
+    <>
+      <BrowserRouter>
+        <Routes>
+          {currentUser ? (
+            <Route
+              element={
+                <>
+                  <Sidebar />
 
-                        <Outlet />
-                    </AuthProvider>
-                }>
-                    <Route path="/dashboard" element={<Dashboard />} />
-                    <Route path="/categorias" element={<Categories />} />
-                    <Route path="/livros" element={<Books />} />
-                </Route>
-                </Routes>
-            </BrowserRouter>
-        </>
-    );
+                  <Outlet />
+                </>
+              }
+            >
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/categorias" element={<Categories />} />
+              <Route path="/livros" element={<Books />} />
+            </Route>
+          ) : (
+            <Route>
+              <Route path="/" element={<Login />} />
+              <Route path="/novo-usuario" element={<NewUser />} />
+              <Route path="/recuperar-senha" element={<ForgotPassword />} />
+            </Route>
+          )}
+        </Routes>
+      </BrowserRouter>
+    </>
+  );
 }

@@ -18,93 +18,107 @@ import { FaBookReader } from "react-icons/fa";
 import { api } from "@/services/api";
 import { useAuth } from "@/hooks/useAuth";
 
-export function Sidebar()
-{
-    const navigate = useNavigate();
-    const { currentUser } = useAuth();
-    const [showSideBar, setShowSideBar] = useState(false);
-    const handleCloseSideBar = () => setShowSideBar(false);
+export function Sidebar() {
+  const navigate = useNavigate();
+  const { currentUser } = useAuth();
+  const [showSideBar, setShowSideBar] = useState(false);
+  const handleCloseSideBar = () => setShowSideBar(false);
 
-    async function logout() {
-        try {
-            await api.post("/logout");
+  async function logout() {
+    try {
+      await api.post("/logout");
 
-            navigate("/");
-        } catch(error) {
-            console.log(error);
-        }
+      navigate("/");
+    } catch (error) {
+      console.log(error);
     }
+  }
 
-    const userName = currentUser.name?.split(" ").slice(0, 2).join(" ");
+  const userName = currentUser.name?.split(" ").slice(0, 2).join(" ");
 
-    return (
-        <>
-            <Navbar expand="lg" className="bg-green mb-4">
-                <Container fluid>
-                    <div className="d-flex align-items-center gap-2">
-                        <Button className="btn-green" onClick={() => setShowSideBar(true)}>
-                            <FaBars />
-                        </Button>
+  return (
+    <>
+      <Navbar expand="lg" className="bg-green mb-4">
+        <Container fluid>
+          <div className="d-flex align-items-center gap-2">
+            <Button className="btn-green" onClick={() => setShowSideBar(true)}>
+              <FaBars />
+            </Button>
 
-                        <h3 className="mb-0 text-light">Biblioteca</h3>
-                    </div>
+            <h3 className="mb-0 text-light">Biblioteca</h3>
+          </div>
 
-                    <div className="d-flex align-items-center justify-content-between gap-4">
-                        <span className="text-light">
-                            <FaUserCircle /> {userName}
-                        </span>
+          <div className="d-flex align-items-center justify-content-between gap-4">
+            <span className="text-light">
+              <FaUserCircle /> {userName}
+            </span>
 
-                        <Button className="btn-green" onClick={() => logout()}>
-                            Sair <TbLogout />
-                        </Button>
-                    </div>
-                </Container>
-            </Navbar>
+            <Button className="btn-green" onClick={() => logout()}>
+              Sair <TbLogout />
+            </Button>
+          </div>
+        </Container>
+      </Navbar>
 
-            <Offcanvas show={showSideBar} onHide={handleCloseSideBar}>
-                <Offcanvas.Header closeButton>
-                    <Offcanvas.Title className="text-green">Biblioteca</Offcanvas.Title>
-                </Offcanvas.Header>
+      <Offcanvas show={showSideBar} onHide={handleCloseSideBar}>
+        <Offcanvas.Header closeButton>
+          <Offcanvas.Title className="text-green">Biblioteca</Offcanvas.Title>
+        </Offcanvas.Header>
 
-                <Offcanvas.Body>
-                    <nav className="d-flex flex-column gap-2">
-                        <Row>
-                            <Link to="/" className="d-flex align-items-center gap-2 text-green text-decoration-none fw-semibold">
-                                <MdDashboard />
-                                Dashboard
-                            </Link>
-                        </Row>
+        <Offcanvas.Body>
+          <nav className="d-flex flex-column gap-2">
+            <Row>
+              <Link
+                to="/"
+                className="d-flex align-items-center gap-2 text-green text-decoration-none fw-semibold"
+              >
+                <MdDashboard />
+                Dashboard
+              </Link>
+            </Row>
 
-                        <Row>
-                            <Link to="/categorias" className="d-flex align-items-center gap-2 text-green text-decoration-none fw-semibold">
-                                <SiBookstack />
-                                Categorias
-                            </Link>
-                        </Row>
+            <Row>
+              <Link
+                to="/categorias"
+                className="d-flex align-items-center gap-2 text-green text-decoration-none fw-semibold"
+              >
+                <SiBookstack />
+                Categorias
+              </Link>
+            </Row>
 
-                        <Row>
-                            <Link to="/livros" className="d-flex align-items-center gap-2 text-green text-decoration-none fw-semibold">
-                                <FaBook />
-                                Livros
-                            </Link>
-                        </Row>
+            <Row>
+              <Link
+                to="/livros"
+                className="d-flex align-items-center gap-2 text-green text-decoration-none fw-semibold"
+              >
+                <FaBook />
+                Livros
+              </Link>
+            </Row>
 
-                        <Row>
-                            <Link to="/emprestimos" className="d-flex align-items-center gap-2 text-green text-decoration-none fw-semibold">
-                                <FaBookReader />
-                                Empréstimos
-                            </Link>
-                        </Row>
+            <Row>
+              <Link
+                to="/emprestimos"
+                className="d-flex align-items-center gap-2 text-green text-decoration-none fw-semibold"
+              >
+                <FaBookReader />
+                Empréstimos
+              </Link>
+            </Row>
 
-                        <Row>
-                            <Link to="/usuarios" className="d-flex align-items-center gap-2 text-green text-decoration-none fw-semibold">
-                                <FaUsers />
-                                Usuários
-                            </Link>
-                        </Row>
-                    </nav>
-                </Offcanvas.Body>
-            </Offcanvas>
-        </>
-    );
+            <Row>
+              <Link
+                to="/usuarios"
+                className="d-flex align-items-center gap-2 text-green text-decoration-none fw-semibold"
+              >
+                <FaUsers />
+                Usuários
+              </Link>
+            </Row>
+          </nav>
+        </Offcanvas.Body>
+      </Offcanvas>
+    </>
+  );
 }

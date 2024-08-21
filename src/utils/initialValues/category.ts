@@ -1,5 +1,5 @@
 export const categoryInitialValues = {
-    name: "",
-    description: "",
-    status: 1,
-}
+  name: "",
+  description: "",
+  status: 1,
+};

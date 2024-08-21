@@ -10,69 +10,69 @@ import { useSwal } from "@/hooks/useSwal";
 import { categoryInitialValues } from "@/utils/initialValues/category";
 
 type Props = ModalProps & {
-    fetchCategories: () => Promise<void>;
+  fetchCategories: () => Promise<void>;
 };
 
-export function NewCategoryModal({
-    fetchCategories,
-    ...rest
-}: Props) {
-    const { Toast } = useSwal();
+export function NewCategoryModal({ fetchCategories, ...rest }: Props) {
+  const { Toast } = useSwal();
 
-    const formik = useFormik({
-        initialValues: categoryInitialValues,
-        async onSubmit(values) {
-            try {
-                await api.post("/categories", values);
+  const formik = useFormik({
+    initialValues: categoryInitialValues,
+    async onSubmit(values) {
+      try {
+        await api.post("/categories", values);
 
-                fetchCategories();
+        fetchCategories();
 
-                rest.onHide?.();
+        rest.onHide?.();
 
-                formik.resetForm();
-
-                Toast.fire({
-                    icon: "success",
-                    text: "Categoria cadastrada com sucesso!",
-                });
-            } catch(error) {
-                console.log(error);
-            }
-        } 
-    });
-
-    useEffect(() => {
         formik.resetForm();
-    }, [rest.show]);
 
-    return (
-        <Modal {...rest}>
-            <Modal.Header closeButton>
-                <Modal.Title>Nova categoria</Modal.Title>
-            </Modal.Header>
+        Toast.fire({
+          icon: "success",
+          text: "Categoria cadastrada com sucesso!",
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  });
 
-            <Modal.Body>
-                <Form onSubmit={formik.handleSubmit}>
-                    <Form.Group className="mb-2">
-                        <Form.Label>Nome:</Form.Label>
-                        <Form.Control {...formik.getFieldProps("name")} />
-                    </Form.Group>
+  useEffect(() => {
+    formik.resetForm();
+  }, [rest.show]);
 
-                    <Form.Group className="mb-2">
-                        <Form.Label>Descrição:</Form.Label>
-                        <Form.Control {...formik.getFieldProps("description")} as="textarea" />
-                    </Form.Group>
+  return (
+    <Modal {...rest}>
+      <Modal.Header closeButton>
+        <Modal.Title>Nova categoria</Modal.Title>
+      </Modal.Header>
 
-                    <Form.Group className="d-flex gap-2 align-items-center mb-4">
-                        <Form.Label>Ativar:</Form.Label>
-                        <Form.Check type="switch" />
-                    </Form.Group>
+      <Modal.Body>
+        <Form onSubmit={formik.handleSubmit}>
+          <Form.Group className="mb-2">
+            <Form.Label>Nome:</Form.Label>
+            <Form.Control {...formik.getFieldProps("name")} />
+          </Form.Group>
 
-                    <div className="d-flex justify-content-end">
-                        <Button type="submit">Cadastrar</Button>
-                    </div>
-                </Form>
-            </Modal.Body>
-        </Modal>
-    );
+          <Form.Group className="mb-2">
+            <Form.Label>Descrição:</Form.Label>
+            <Form.Control
+              {...formik.getFieldProps("description")}
+              as="textarea"
+            />
+          </Form.Group>
+
+          <Form.Group className="d-flex gap-2 align-items-center mb-4">
+            <Form.Label>Ativar:</Form.Label>
+            <Form.Check type="switch" />
+          </Form.Group>
+
+          <div className="d-flex justify-content-end">
+            <Button type="submit">Cadastrar</Button>
+          </div>
+        </Form>
+      </Modal.Body>
+    </Modal>
+  );
 }

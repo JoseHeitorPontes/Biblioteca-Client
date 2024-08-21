@@ -1,7 +1,5 @@
-import { ReactSelect } from "../ReactSelect";
+import { Select } from "../Select";
 
 export function CategoriesSelect() {
-    return (
-        <ReactSelect />
-    );
+  return <Select />;
 }

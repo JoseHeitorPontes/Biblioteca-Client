@@ -11,74 +11,75 @@ import { categoryInitialValues } from "@/utils/initialValues/category";
 import { useEffect } from "react";
 
 type Props = ModalProps & {
-    category: Category;
-    fetchCategories: () => Promise<void>;
+  category: Category;
+  fetchCategories: () => Promise<void>;
 };
 
 export function EditCategoryModal({
-    category,
-    fetchCategories,
-    ...rest
+  category,
+  fetchCategories,
+  ...rest
 }: Props) {
-    const { Toast } = useSwal();
+  const { Toast } = useSwal();
 
-    const formik = useFormik({
-        initialValues: categoryInitialValues,
-        async onSubmit(values) {
-            try {
-                await api.put(`/categories/${category.id}`, values);
+  const formik = useFormik({
+    initialValues: categoryInitialValues,
+    async onSubmit(values) {
+      try {
+        await api.put(`/categories/${category.id}`, values);
 
-                await fetchCategories();
+        await fetchCategories();
 
-                rest.onHide?.();
-                
-                Toast.fire({
-                    icon: "success",
-                    text: "Categoria editada com sucesso!",
-                });
-            } catch(error) {
-                console.log(error);
-            }
-        }
-    });
+        rest.onHide?.();
 
-    useEffect(() => {
-        const categoryValues = Object(category);
+        Toast.fire({
+          icon: "success",
+          text: "Categoria editada com sucesso!",
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  });
 
-        formik.setValues(categoryValues);
-    }, [category]);
+  useEffect(() => {
+    const categoryValues = Object(category);
 
-    useEffect(() => {
-        if (!rest.show) {
-            formik.setValues(categoryInitialValues);
-        }
-    }, [rest.show]);
+    formik.setValues(categoryValues);
+  }, [category]);
 
-    return (
-        <Modal {...rest}>
-            <Modal.Header closeButton>
-                <Modal.Title>
-                    Editar categoria
-                </Modal.Title>
-            </Modal.Header>
+  useEffect(() => {
+    if (!rest.show) {
+      formik.setValues(categoryInitialValues);
+    }
+  }, [rest.show]);
 
-            <Modal.Body>
-                <Form onSubmit={formik.handleSubmit}>
-                    <Form.Group className="mb-2">
-                        <Form.Label>Nome:</Form.Label>
-                        <Form.Control {...formik.getFieldProps("name")} />
-                    </Form.Group>
+  return (
+    <Modal {...rest}>
+      <Modal.Header closeButton>
+        <Modal.Title>Editar categoria</Modal.Title>
+      </Modal.Header>
 
-                    <Form.Group className="mb-4">
-                        <Form.Label>Descrição:</Form.Label>
-                        <Form.Control as="textarea" {...formik.getFieldProps("description")} />
-                    </Form.Group>
-                
-                    <div className="d-flex justify-content-end">
-                        <Button type="submit">Editar</Button>
-                    </div>
-                </Form>
-            </Modal.Body>
-        </Modal>
-    );
+      <Modal.Body>
+        <Form onSubmit={formik.handleSubmit}>
+          <Form.Group className="mb-2">
+            <Form.Label>Nome:</Form.Label>
+            <Form.Control {...formik.getFieldProps("name")} />
+          </Form.Group>
+
+          <Form.Group className="mb-4">
+            <Form.Label>Descrição:</Form.Label>
+            <Form.Control
+              as="textarea"
+              {...formik.getFieldProps("description")}
+            />
+          </Form.Group>
+
+          <div className="d-flex justify-content-end">
+            <Button type="submit">Editar</Button>
+          </div>
+        </Form>
+      </Modal.Body>
+    </Modal>
+  );
 }

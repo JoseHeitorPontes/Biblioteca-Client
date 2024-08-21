@@ -1,59 +1,59 @@
 $green: #1fac1f;
 
 .h-vh-full {
-    height: 100vh;
+  height: 100vh;
 }
 
 .h-150px {
-    height: 250px;
+  height: 250px;
 }
 
 .w-200px {
-    width: 200px;
+  width: 200px;
 }
 
 .text-green {
-    color: $green !important;
+  color: $green !important;
 }
 
 .bg-green {
-    background-color: $green !important;
+  background-color: $green !important;
 }
 
 .btn-green {
-    border: 0 !important;
-    background-color: $green !important;
+  border: 0 !important;
+  background-color: $green !important;
 
-    &:hover {
-        filter: brightness(85%);
-    }
+  &:hover {
+    filter: brightness(85%);
+  }
 }
 
 .text-align-justify {
-    text-align: justify;
+  text-align: justify;
 }
 
 .default-table {
-    width: 100%;
+  width: 100%;
 
-    thead tr {
-        border-bottom: 0.1rem solid #919191;
-    }
+  thead tr {
+    border-bottom: 0.1rem solid #919191;
+  }
 
-    th, td {
-        font-weight: 700;
-    }
+  th,
+  td {
+    font-weight: 700;
+  }
 
-    th {
-        padding: 0.5rem 0.75rem;
-        font-size: 0.95rem;
-        color: #919191;
-    }
-    
-    td {
-        padding: 0.75rem;
-        font-size: 0.85rem;
-        color: #222;
-    }
+  th {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.95rem;
+    color: #919191;
+  }
+
+  td {
+    padding: 0.75rem;
+    font-size: 0.85rem;
+    color: #222;
+  }
 }
-

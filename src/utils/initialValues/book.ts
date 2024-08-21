@@ -1,8 +1,8 @@
 export const bookInitialValues = {
-    name: "",
-    author: "",
-    publishingCompany: "",
-    synpose: "",
-    category: {},
-    image: ""
+  name: "",
+  author: "",
+  publishingCompany: "",
+  synpose: "",
+  category: {},
+  image: "",
 };

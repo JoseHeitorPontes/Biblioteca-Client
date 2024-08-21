@@ -10,93 +10,109 @@ import { useSwal } from "@/hooks/useSwal";
 import { userInitialValues } from "@/utils/initialValues/user";
 import { newUserSchema } from "@/utils/validations/newUserSchema";
 
-export function NewUser()
-{
-    const navigate = useNavigate();
-    const { Toast } = useSwal();
+export function NewUser() {
+  const navigate = useNavigate();
+  const { Toast } = useSwal();
 
-    const formik = useFormik({
-        initialValues: userInitialValues,
-        validationSchema: newUserSchema,
-        async onSubmit(values) {
-            try {
-                const { data } = await api.post("/user", values);
+  const formik = useFormik({
+    initialValues: userInitialValues,
+    validationSchema: newUserSchema,
+    async onSubmit(values) {
+      try {
+        const { data } = await api.post("/user", values);
 
-                await Toast.fire({
-                    icon: "success",
-                    text: data.message,
-                });
+        await Toast.fire({
+          icon: "success",
+          text: data.message,
+        });
 
-                navigate("/");
-            } catch(error) {
-                console.log(error);
-            }
-        }
-    });
+        navigate("/");
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  });
 
-    return (
-        <div className="h-vh-full d-flex justify-content-center align-items-center my-0">
-            <Card className="col-4 p-4">
-                <Card.Body>
-                    <Form onSubmit={formik.handleSubmit}>
-                        <h1 className="text-center">Novo Usuário</h1>
+  return (
+    <div className="h-vh-full d-flex justify-content-center align-items-center my-0">
+      <Card className="col-4 p-4">
+        <Card.Body>
+          <Form onSubmit={formik.handleSubmit}>
+            <h1 className="text-center">Novo Usuário</h1>
 
-                        <Form.Group className="mb-4">
-                            <Form.Label className="fw-bold">Nome:</Form.Label>
+            <Form.Group className="mb-4">
+              <Form.Label className="fw-bold">Nome:</Form.Label>
 
-                            <Form.Control {...formik.getFieldProps("name")} />
+              <Form.Control {...formik.getFieldProps("name")} />
 
-                            {formik.touched.name && formik.errors.name && (
-                                <span className="text-danger fw-semibold">{formik.errors.name}</span>
-                            )}
-                        </Form.Group>
+              {formik.touched.name && formik.errors.name && (
+                <span className="text-danger fw-semibold">
+                  {formik.errors.name}
+                </span>
+              )}
+            </Form.Group>
 
-                        <Form.Group className="mb-4">
-                            <Form.Label className="fw-bold">Email:</Form.Label>
+            <Form.Group className="mb-4">
+              <Form.Label className="fw-bold">Email:</Form.Label>
 
-                            <Form.Control type="email" {...formik.getFieldProps("email")} />
+              <Form.Control type="email" {...formik.getFieldProps("email")} />
 
-                            {formik.touched.email && formik.errors.email && (
-                                <span className="text-danger fw-semibold">{formik.errors.email}</span>
-                            )}
-                        </Form.Group>
+              {formik.touched.email && formik.errors.email && (
+                <span className="text-danger fw-semibold">
+                  {formik.errors.email}
+                </span>
+              )}
+            </Form.Group>
 
-                        <Form.Group className="mb-4">
-                            <Form.Label className="fw-bold">Senha:</Form.Label>
+            <Form.Group className="mb-4">
+              <Form.Label className="fw-bold">Senha:</Form.Label>
 
-                            <Form.Control type="password" {...formik.getFieldProps("password")} />
+              <Form.Control
+                type="password"
+                {...formik.getFieldProps("password")}
+              />
 
-                            {formik.touched.password && formik.errors.password && (
-                                <span className="text-danger fw-semibold">{formik.errors.password}</span>
-                            )}
-                        </Form.Group>
+              {formik.touched.password && formik.errors.password && (
+                <span className="text-danger fw-semibold">
+                  {formik.errors.password}
+                </span>
+              )}
+            </Form.Group>
 
-                        <Form.Group className="mb-2">
-                            <Form.Label className="fw-bold">Confirmar senha:</Form.Label>
+            <Form.Group className="mb-2">
+              <Form.Label className="fw-bold">Confirmar senha:</Form.Label>
 
-                            <Form.Control type="password" {...formik.getFieldProps("confirmation_password")} />
+              <Form.Control
+                type="password"
+                {...formik.getFieldProps("confirmation_password")}
+              />
 
-                            {formik.touched.confirmation_password && formik.errors.confirmation_password && (
-                                <span className="text-danger fw-semibold">{formik.errors.confirmation_password}</span>
-                            )}
-                        </Form.Group>
-                        
-                        <div className="mb-4">
-                            <Link to="/" className="text-dark fw-semibold">Login</Link>
-                        </div>
+              {formik.touched.confirmation_password &&
+                formik.errors.confirmation_password && (
+                  <span className="text-danger fw-semibold">
+                    {formik.errors.confirmation_password}
+                  </span>
+                )}
+            </Form.Group>
 
-                        <div className="d-flex justify-content-center">
-                            <Button
-                                type="submit"
-                                className="bg-dark"
-                                disabled={formik.isSubmitting || !formik.isValid}
-                            >
-                                Cadastrar
-                            </Button>
-                        </div>
-                    </Form>
-                </Card.Body>
-            </Card>
-        </div>
-    );
+            <div className="mb-4">
+              <Link to="/" className="text-dark fw-semibold">
+                Login
+              </Link>
+            </div>
+
+            <div className="d-flex justify-content-center">
+              <Button
+                type="submit"
+                className="bg-dark"
+                disabled={formik.isSubmitting || !formik.isValid}
+              >
+                Cadastrar
+              </Button>
+            </div>
+          </Form>
+        </Card.Body>
+      </Card>
+    </div>
+  );
 }
