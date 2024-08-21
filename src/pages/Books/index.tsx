@@ -17,6 +17,7 @@ import { useSwal } from "@/hooks/useSwal";
 import { Pagination } from "@/components/Pagination";
 import { NewBookModal } from "@/components/Modals/Books/NewBookModal";
 import { ViewBookModal } from "@/components/Modals/Books/ViewBookModal";
+import { Search } from "@/components/Search";
 import { Select } from "../Select";
 
 type BooksPagination = GenericPagination<Book>;
@@ -103,87 +104,95 @@ export function Books() {
 
   return (
     <Container fluid>
-      <div className="d-flex justify-content-between">
-        <Button
-          variant="primary"
-          className="mb-4"
-          onClick={handleShowNewBookModal}
-        >
-          Novo livro
-        </Button>
+      <Button
+        variant="primary"
+        className="mb-4"
+        onClick={handleShowNewBookModal}
+      >
+        Novo livro
+      </Button>
 
-        <Col md={2}>
-          <Select />
-        </Col>
-      </div>
+      <Card>
+        <Card.Body>
+          {isLoading ? (
+            <div className="d-flex justify-content-center">
+              <Spinner animation="border" variant="primary" />
+            </div>
+          ) : Boolean(booksPagination?.data?.length) ? (
+            <>
+              <div className="d-flex justify-content-between mb-4">
+                <Col md={2}>
+                  <Select />
+                </Col>
 
-      {isLoading ? (
-        <div className="d-flex justify-content-center">
-          <Spinner animation="border" variant="primary" />
-        </div>
-      ) : Boolean(booksPagination?.data?.length) ? (
-        <>
-          <table className="default-table table-bordered mb-4 text-center">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Nome</th>
-                <th>Categoria</th>
-                <th>Autor</th>
-                <th>Editora</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
+                <Search />
+              </div>
 
-            <tbody>
-              {booksPagination.data?.map((book, index) => (
-                <tr key={book.id}>
-                  <td>{index + 1}</td>
-                  <td>{book.name}</td>
-                  <td>{book.category.name}</td>
-                  <td>{book.author}</td>
-                  <td>{book.publishingCompany}</td>
-                  <td>
-                    <div className="d-flex justify-content-center gap-2">
-                      <OverlayTrigger overlay={<Tooltip>Ver</Tooltip>}>
-                        <Button onClick={() => handleShowViewBookModal(book)}>
-                          <FaEye />
-                        </Button>
-                      </OverlayTrigger>
+              <table className="default-table table-bordered mb-4 text-center">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Nome</th>
+                    <th>Categoria</th>
+                    <th>Autor</th>
+                    <th>Editora</th>
+                    <th>Ações</th>
+                  </tr>
+                </thead>
 
-                      <OverlayTrigger overlay={<Tooltip>Editar</Tooltip>}>
-                        <Button variant="success">
-                          <BiSolidEdit />
-                        </Button>
-                      </OverlayTrigger>
+                <tbody>
+                  {booksPagination.data?.map((book, index) => (
+                    <tr key={book.id}>
+                      <td>{index + 1}</td>
+                      <td>{book.name}</td>
+                      <td>{book.category.name}</td>
+                      <td>{book.author}</td>
+                      <td>{book.publishingCompany}</td>
+                      <td>
+                        <div className="d-flex justify-content-center gap-2">
+                          <OverlayTrigger overlay={<Tooltip>Ver</Tooltip>}>
+                            <Button
+                              onClick={() => handleShowViewBookModal(book)}
+                            >
+                              <FaEye />
+                            </Button>
+                          </OverlayTrigger>
 
-                      <OverlayTrigger overlay={<Tooltip>Deletar</Tooltip>}>
-                        <Button
-                          variant="danger"
-                          onClick={() => handleDeleteBook(book.id)}
-                        >
-                          <FaTrash />
-                        </Button>
-                      </OverlayTrigger>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                          <OverlayTrigger overlay={<Tooltip>Editar</Tooltip>}>
+                            <Button variant="success">
+                              <BiSolidEdit />
+                            </Button>
+                          </OverlayTrigger>
 
-          <Pagination
-            itemsPerPage={10}
-            totalItems={booksPagination.meta.total}
-            forcePage={forcePage.current - 1}
-            changeSelectedPage={handlePageChange}
-          />
-        </>
-      ) : (
-        <div className="text-center text-secondary fw-bold">
-          Sem livros cadastradas.
-        </div>
-      )}
+                          <OverlayTrigger overlay={<Tooltip>Deletar</Tooltip>}>
+                            <Button
+                              variant="danger"
+                              onClick={() => handleDeleteBook(book.id)}
+                            >
+                              <FaTrash />
+                            </Button>
+                          </OverlayTrigger>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+
+              <Pagination
+                itemsPerPage={10}
+                totalItems={booksPagination.meta.total}
+                forcePage={forcePage.current - 1}
+                changeSelectedPage={handlePageChange}
+              />
+            </>
+          ) : (
+            <div className="text-center text-secondary fw-bold">
+              Sem livros cadastradas.
+            </div>
+          )}
+        </Card.Body>
+      </Card>
 
       <NewBookModal show={showNewBookModal} onHide={handleCloseNewBookModal} />
 

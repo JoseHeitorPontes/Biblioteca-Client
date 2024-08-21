@@ -39,7 +39,7 @@ export function Pagination({
 
   return (
     <ReactPaginate
-      containerClassName="pagination pagination-sm"
+      containerClassName="pagination pagination-sm mb-0"
       pageClassName="page-item"
       pageLinkClassName="page-link"
       previousClassName="page-item"

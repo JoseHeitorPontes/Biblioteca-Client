@@ -10,6 +10,7 @@ import { ForgotPassword } from "@/pages/ForgotPassword";
 import { Dashboard } from "@/pages/Dashboard";
 import { Categories } from "@/pages/Categories";
 import { Books } from "@/pages/Books";
+import { Lendings } from "@/pages/Lendings";
 
 export function AppRoutes() {
   const { currentUser } = useAuth();
@@ -32,6 +33,7 @@ export function AppRoutes() {
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/categorias" element={<Categories />} />
               <Route path="/livros" element={<Books />} />
+              <Route path="/emprestimos" element={<Lendings />} />
             </Route>
           ) : (
             <Route>

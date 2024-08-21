@@ -1,14 +1,13 @@
+import { useEffect } from "react";
 import { useFormik } from "formik";
-
-import { useSwal } from "@/hooks/useSwal";
 
 import Modal, { ModalProps } from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
+import { useSwal } from "@/hooks/useSwal";
 import { api } from "@/services/api";
 import { categoryInitialValues } from "@/utils/initialValues/category";
-import { useEffect } from "react";
 
 type Props = ModalProps & {
   category: Category;

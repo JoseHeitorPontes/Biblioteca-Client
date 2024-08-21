@@ -41,9 +41,7 @@ export function Dashboard() {
 
       <Card>
         <Card.Header className="bg-green text-light">
-          <Card.Title className="m-0">
-            Empréstimos próximos de vencimento
-          </Card.Title>
+          <Card.Title className="m-0">Últimos empréstimos</Card.Title>
         </Card.Header>
 
         <Card.Body className="p-0">
