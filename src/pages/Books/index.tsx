@@ -152,6 +152,8 @@ export function Books() {
                         <div className="d-flex justify-content-center gap-2">
                           <OverlayTrigger overlay={<Tooltip>Ver</Tooltip>}>
                             <Button
+                              variant="info"
+                              className="text-light"
                               onClick={() => handleShowViewBookModal(book)}
                             >
                               <FaEye />
