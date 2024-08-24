@@ -4,6 +4,7 @@ import { api } from "../services/api";
 type AuthContextProps = {
   currentUser: User;
   setCurrentUser: (user: User) => void;
+  getCurrentUser: () => Promise<void>;
 };
 
 type AuthProviderProps = {
@@ -30,7 +31,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ currentUser, setCurrentUser }}>
+    <AuthContext.Provider
+      value={{ currentUser, setCurrentUser, getCurrentUser }}
+    >
       {children}
     </AuthContext.Provider>
   );

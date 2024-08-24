@@ -4,31 +4,43 @@ import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import Offcanvas from "react-bootstrap/Offcanvas";
-import Row from "react-bootstrap/Row";
-import { Link, useNavigate } from "react-router-dom";
 
-import { FaBars, FaUsers } from "react-icons/fa6";
+import { FaBars } from "react-icons/fa6";
 import { TbLogout } from "react-icons/tb";
 import { FaUserCircle } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
-import { FaBook } from "react-icons/fa6";
 import { SiBookstack } from "react-icons/si";
-import { FaBookReader } from "react-icons/fa";
+import { MdMenuBook } from "react-icons/md";
+import { FaUserGraduate } from "react-icons/fa";
+import { FaUserClock } from "react-icons/fa";
+import { FaUser } from "react-icons/fa";
 
 import { api } from "@/services/api";
 import { useAuth } from "@/hooks/useAuth";
+import { useSwal } from "@/hooks/useSwal";
+
+import { SidebarLink } from "../SidebarLink";
 
 export function Sidebar() {
-  const navigate = useNavigate();
-  const { currentUser } = useAuth();
+  const { Swal } = useSwal();
+
+  const { currentUser, setCurrentUser } = useAuth();
   const [showSideBar, setShowSideBar] = useState(false);
   const handleCloseSideBar = () => setShowSideBar(false);
 
   async function logout() {
     try {
-      await api.post("/logout");
+      const { isConfirmed } = await Swal.fire({
+        icon: "question",
+        text: "Tem certeza que deseja sair?",
+      });
 
-      navigate("/");
+      if (isConfirmed) {
+        await api.post("/logout");
+
+        localStorage.removeItem("token");
+        setCurrentUser({} as User);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -67,55 +79,35 @@ export function Sidebar() {
 
         <Offcanvas.Body>
           <nav className="d-flex flex-column gap-2">
-            <Row>
-              <Link
-                to="/"
-                className="d-flex align-items-center gap-2 text-green text-decoration-none fw-semibold"
-              >
-                <MdDashboard />
-                Dashboard
-              </Link>
-            </Row>
+            <SidebarLink path="/dashboard">
+              <MdDashboard />
+              Dashboard
+            </SidebarLink>
 
-            <Row>
-              <Link
-                to="/categorias"
-                className="d-flex align-items-center gap-2 text-green text-decoration-none fw-semibold"
-              >
-                <SiBookstack />
-                Categorias
-              </Link>
-            </Row>
+            <SidebarLink path="/categorias">
+              <SiBookstack />
+              Categorias
+            </SidebarLink>
 
-            <Row>
-              <Link
-                to="/livros"
-                className="d-flex align-items-center gap-2 text-green text-decoration-none fw-semibold"
-              >
-                <FaBook />
-                Livros
-              </Link>
-            </Row>
+            <SidebarLink path="/livros">
+              <MdMenuBook />
+              Livros
+            </SidebarLink>
 
-            <Row>
-              <Link
-                to="/emprestimos"
-                className="d-flex align-items-center gap-2 text-green text-decoration-none fw-semibold"
-              >
-                <FaBookReader />
-                Empréstimos
-              </Link>
-            </Row>
+            <SidebarLink path="/alunos">
+              <FaUserGraduate />
+              Alunos
+            </SidebarLink>
 
-            <Row>
-              <Link
-                to="/usuarios"
-                className="d-flex align-items-center gap-2 text-green text-decoration-none fw-semibold"
-              >
-                <FaUsers />
-                Usuários
-              </Link>
-            </Row>
+            <SidebarLink path="/emprestimos">
+              <FaUserClock />
+              Empréstimos
+            </SidebarLink>
+
+            <SidebarLink path="/meu-perfil">
+              <FaUser />
+              Meu perfil
+            </SidebarLink>
           </nav>
         </Offcanvas.Body>
       </Offcanvas>

@@ -14,12 +14,13 @@ import { Lendings } from "@/pages/Lendings";
 
 export function AppRoutes() {
   const { currentUser } = useAuth();
+  const hasCurrentUser = Boolean(Object.values(currentUser).length);
 
   return (
     <>
       <BrowserRouter>
         <Routes>
-          {currentUser ? (
+          {hasCurrentUser ? (
             <Route
               element={
                 <>
@@ -29,7 +30,6 @@ export function AppRoutes() {
                 </>
               }
             >
-              <Route path="/" element={<Dashboard />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/categorias" element={<Categories />} />
               <Route path="/livros" element={<Books />} />

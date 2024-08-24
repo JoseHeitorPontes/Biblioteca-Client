@@ -1,5 +1,7 @@
+import { useEffect } from "react";
+
 import { useFormik } from "formik";
-import { Link, redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
@@ -20,9 +22,9 @@ export function Login() {
       try {
         const { data } = await api.post("/auth", values);
 
-        localStorage.setItem("token", `Bearer ${data.token}`);
+        const accessToken = `Bearer ${data.access_token}`;
 
-        redirect("/dashboard");
+        localStorage.setItem("access_token", accessToken);
       } catch (error: any) {
         console.log(error);
 
