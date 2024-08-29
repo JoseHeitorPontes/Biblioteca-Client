@@ -34,7 +34,7 @@ export function AppRoutes() {
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/categorias" element={<Categories />} />
               <Route path="/livros" element={<Books />} />
-              <Route path="alunos" element={<Students />} />
+              <Route path="/alunos" element={<Students />} />
               <Route path="/emprestimos" element={<Lendings />} />
             </Route>
           ) : (

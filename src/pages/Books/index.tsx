@@ -4,12 +4,7 @@ import Container from "react-bootstrap/Container";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Spinner from "react-bootstrap/Spinner";
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import Tooltip from "react-bootstrap/Tooltip";
 import Col from "react-bootstrap/Col";
-
-import { FaEye, FaTrash } from "react-icons/fa6";
-import { BiSolidEdit } from "react-icons/bi";
 
 import { api } from "@/services/api";
 import { useSwal } from "@/hooks/useSwal";
@@ -18,6 +13,7 @@ import { Pagination } from "@/components/Pagination";
 import { NewBookModal } from "@/components/Modals/Books/NewBookModal";
 import { ViewBookModal } from "@/components/Modals/Books/ViewBookModal";
 import { Search } from "@/components/Search";
+import { ActionsButton } from "@/components/ActionsButton";
 import { Select } from "../Select";
 
 type BooksPagination = GenericPagination<Book>;
@@ -114,20 +110,20 @@ export function Books() {
 
       <Card>
         <Card.Body>
+          <div className="d-flex justify-content-between mb-4">
+            <Col md={2}>
+              <Select />
+            </Col>
+
+            <Search placeholder="Pesquise por um livro" />
+          </div>
+
           {isLoading ? (
             <div className="d-flex justify-content-center">
               <Spinner animation="border" variant="primary" />
             </div>
           ) : Boolean(booksPagination?.data?.length) ? (
             <>
-              <div className="d-flex justify-content-between mb-4">
-                <Col md={2}>
-                  <Select />
-                </Col>
-
-                <Search />
-              </div>
-
               <table className="default-table table-bordered mb-4 text-center">
                 <thead>
                   <tr>
@@ -149,32 +145,10 @@ export function Books() {
                       <td>{book.author}</td>
                       <td>{book.publishingCompany}</td>
                       <td>
-                        <div className="d-flex justify-content-center gap-2">
-                          <OverlayTrigger overlay={<Tooltip>Ver</Tooltip>}>
-                            <Button
-                              variant="info"
-                              className="text-light"
-                              onClick={() => handleShowViewBookModal(book)}
-                            >
-                              <FaEye />
-                            </Button>
-                          </OverlayTrigger>
-
-                          <OverlayTrigger overlay={<Tooltip>Editar</Tooltip>}>
-                            <Button variant="success">
-                              <BiSolidEdit />
-                            </Button>
-                          </OverlayTrigger>
-
-                          <OverlayTrigger overlay={<Tooltip>Deletar</Tooltip>}>
-                            <Button
-                              variant="danger"
-                              onClick={() => handleDeleteBook(book.id)}
-                            >
-                              <FaTrash />
-                            </Button>
-                          </OverlayTrigger>
-                        </div>
+                        <ActionsButton
+                          handleShow={() => handleShowViewBookModal(book)}
+                          handleDelete={() => () => handleDeleteBook(book.id)}
+                        />
                       </td>
                     </tr>
                   ))}

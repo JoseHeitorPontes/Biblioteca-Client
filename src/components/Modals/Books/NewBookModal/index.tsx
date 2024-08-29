@@ -9,7 +9,7 @@ import { bookInitialValues } from "@/utils/initialValues/book";
 
 import { CategoriesSelect } from "@/components/Selects/CategoriesSelect";
 
-type Props = ModalProps;
+type Props = ModalProps & {};
 
 export function NewBookModal({ ...rest }: Props) {
   const formik = useFormik({
