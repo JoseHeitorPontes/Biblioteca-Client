@@ -22,7 +22,7 @@ export function NewCategoryModal({ fetchCategories, ...rest }: Props) {
       try {
         await api.post("/categories", values);
 
-        fetchCategories();
+        await fetchCategories();
 
         rest.onHide?.();
 

@@ -10,7 +10,7 @@ import Button from "react-bootstrap/Button";
 import { api } from "@/services/api";
 import { useSwal } from "@/hooks/useSwal";
 import { initialValuesLogin } from "@/utils/initialValues/login";
-import { loginSchema } from "@/utils/validations/loginSchema";
+import { loginSchema } from "@/utils/validations/login";
 
 export function Login() {
   const { Toast } = useSwal();

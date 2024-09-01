@@ -10,6 +10,7 @@ import { Gender, GenderMessages } from "@/enums/Gender";
 
 import { Search } from "@/components/Search";
 import { ActionsButton } from "@/components/ActionsButton";
+import { NewStudentModal } from "@/components/Modals/Students/NewStudentModal";
 
 type StudentsPagination = GenericPagination<Student>;
 
@@ -77,7 +78,7 @@ export function Students() {
                   studentsPagination?.data?.map((student, index) => {
                     const genderMessage =
                       GenderMessages[student.gender as Gender];
-  
+
                     return (
                       <tr key={`student-${index}`}>
                         <td>{index + 1}</td>
@@ -104,6 +105,12 @@ export function Students() {
           )}
         </Card.Body>
       </Card>
+
+      <NewStudentModal
+        show={showNewStudentModal}
+        onHide={handleCloseNewStudentModal}
+        fetchStudents={fetchStudents}
+      />
     </Container>
   );
 }

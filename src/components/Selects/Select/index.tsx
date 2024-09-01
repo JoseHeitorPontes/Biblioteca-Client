@@ -1,10 +1,10 @@
-import ReactProps, { Props } from "react-select";
+import ReactSelect, { Props } from "react-select";
 
 type ReactSelectProps = Props;
 
 export function Select({ ...rest }: ReactSelectProps) {
   return (
-    <Select
+    <ReactSelect
       placeholder="Selecione..."
       noOptionsMessage={() => "Sem opções"}
       components={{

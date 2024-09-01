@@ -13,10 +13,7 @@ type Props = {
 export function SidebarLink({ children, path }: Props) {
   return (
     <Row>
-      <Link
-        to={path}
-        className="sidebar-link text-green"
-      >
+      <Link to={path} className="sidebar-link text-green">
         {children}
       </Link>
     </Row>

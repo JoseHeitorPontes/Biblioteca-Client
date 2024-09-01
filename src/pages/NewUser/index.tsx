@@ -7,8 +7,8 @@ import Button from "react-bootstrap/Button";
 
 import { api } from "@/services/api";
 import { useSwal } from "@/hooks/useSwal";
+import { userSchema } from "@/utils/validations/user";
 import { userInitialValues } from "@/utils/initialValues/user";
-import { newUserSchema } from "@/utils/validations/newUserSchema";
 
 export function NewUser() {
   const navigate = useNavigate();
@@ -16,7 +16,7 @@ export function NewUser() {
 
   const formik = useFormik({
     initialValues: userInitialValues,
-    validationSchema: newUserSchema,
+    validationSchema: userSchema,
     async onSubmit(values) {
       try {
         const { data } = await api.post("/user", values);

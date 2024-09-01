@@ -1,12 +1,12 @@
 .sidebar-link {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    text-decoration: none;
-    font-weight: 700;
-    transition: 0.25s ease-in-out;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  font-weight: 700;
+  transition: 0.25s ease-in-out;
 
-    &:hover {
-        filter: brightness(85%);
-    }
+  &:hover {
+    filter: brightness(85%);
+  }
 }
